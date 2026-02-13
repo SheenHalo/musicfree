@@ -10,6 +10,14 @@
 
 > 提醒：QQ、网易搜索有时会受上游限制而不稳定，页面已提供“按音乐 ID 解析下载”入口。
 
+## 在线使用
+
+- 访问地址：`https://music.usersfree.com`
+
+## 鸣谢
+
+- 感谢 `TuneHub` 提供音乐解析能力与 API 文档支持：`https://tunehub.sayqz.com/docs`
+
 ---
 
 ## 1. 功能概览
@@ -217,4 +225,3 @@ POST Body 示例：
 npm run dev      # 本地调试
 npm run deploy   # 部署到 Cloudflare
 ```
-
