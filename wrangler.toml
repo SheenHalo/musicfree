@@ -1,0 +1,12 @@
+name = "musicfree"
+main = "src/worker.js"
+compatibility_date = "2026-02-13"
+workers_dev = true
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+[vars]
+RATE_LIMIT_MAX_PER_MIN = "30"
+

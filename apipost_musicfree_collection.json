@@ -1,0 +1,683 @@
+{
+  "info": {
+    "_postman_id": "9a8f1832-f2f2-4ae7-ac03-2eb4ff7f6f43",
+    "name": "MusicFree 接口集合（Cloudflare + TuneHub）",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "musicfree-codex"
+  },
+  "item": [
+    {
+      "name": "Cloudflare 接口",
+      "item": [
+        {
+          "name": "健康检查",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{cloudflare_base_url}}/api/health",
+              "host": [
+                "{{cloudflare_base_url}}"
+              ],
+              "path": [
+                "api",
+                "health"
+              ]
+            }
+          }
+        },
+        {
+          "name": "搜索歌曲",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{cloudflare_base_url}}/api/search?source={{source}}&keyword={{keyword}}&page={{page}}&limit={{limit}}",
+              "host": [
+                "{{cloudflare_base_url}}"
+              ],
+              "path": [
+                "api",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "source",
+                  "value": "{{source}}"
+                },
+                {
+                  "key": "keyword",
+                  "value": "{{keyword}}"
+                },
+                {
+                  "key": "page",
+                  "value": "{{page}}"
+                },
+                {
+                  "key": "limit",
+                  "value": "{{limit}}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "榜单列表",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{cloudflare_base_url}}/api/toplists?source={{source}}",
+              "host": [
+                "{{cloudflare_base_url}}"
+              ],
+              "path": [
+                "api",
+                "toplists"
+              ],
+              "query": [
+                {
+                  "key": "source",
+                  "value": "{{source}}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "榜单歌曲",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{cloudflare_base_url}}/api/toplist?source={{source}}&id={{toplist_id}}",
+              "host": [
+                "{{cloudflare_base_url}}"
+              ],
+              "path": [
+                "api",
+                "toplist"
+              ],
+              "query": [
+                {
+                  "key": "source",
+                  "value": "{{source}}"
+                },
+                {
+                  "key": "id",
+                  "value": "{{toplist_id}}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "歌单详情",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{cloudflare_base_url}}/api/playlist?source={{source}}&id={{playlist_id}}",
+              "host": [
+                "{{cloudflare_base_url}}"
+              ],
+              "path": [
+                "api",
+                "playlist"
+              ],
+              "query": [
+                {
+                  "key": "source",
+                  "value": "{{source}}"
+                },
+                {
+                  "key": "id",
+                  "value": "{{playlist_id}}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "解析歌曲（GET）",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{cloudflare_base_url}}/api/parse?source={{source}}&id={{song_id}}&quality={{quality}}",
+              "host": [
+                "{{cloudflare_base_url}}"
+              ],
+              "path": [
+                "api",
+                "parse"
+              ],
+              "query": [
+                {
+                  "key": "source",
+                  "value": "{{source}}"
+                },
+                {
+                  "key": "id",
+                  "value": "{{song_id}}"
+                },
+                {
+                  "key": "quality",
+                  "value": "{{quality}}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "解析歌曲（POST）",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"source\": \"{{source}}\",\n  \"ids\": \"{{song_ids}}\",\n  \"quality\": \"{{quality}}\"\n}"
+            },
+            "url": {
+              "raw": "{{cloudflare_base_url}}/api/parse",
+              "host": [
+                "{{cloudflare_base_url}}"
+              ],
+              "path": [
+                "api",
+                "parse"
+              ]
+            }
+          }
+        },
+        {
+          "name": "方法总览",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{cloudflare_base_url}}/api/methods",
+              "host": [
+                "{{cloudflare_base_url}}"
+              ],
+              "path": [
+                "api",
+                "methods"
+              ]
+            }
+          }
+        },
+        {
+          "name": "方法平台列表",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{cloudflare_base_url}}/api/methods/{{source}}",
+              "host": [
+                "{{cloudflare_base_url}}"
+              ],
+              "path": [
+                "api",
+                "methods",
+                "{{source}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "方法配置详情",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{cloudflare_base_url}}/api/methods/{{source}}/{{function_name}}",
+              "host": [
+                "{{cloudflare_base_url}}"
+              ],
+              "path": [
+                "api",
+                "methods",
+                "{{source}}",
+                "{{function_name}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "TuneHub 原始接口",
+      "item": [
+        {
+          "name": "方法总览（原始）",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{tunehub_api_key}}"
+              }
+            ],
+            "url": {
+              "raw": "{{tunehub_base_url}}/v1/methods",
+              "host": [
+                "{{tunehub_base_url}}"
+              ],
+              "path": [
+                "v1",
+                "methods"
+              ]
+            }
+          }
+        },
+        {
+          "name": "搜索完整流程（原始）",
+          "item": [
+            {
+              "name": "步骤1：获取QQ搜索方法配置",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "X-API-Key",
+                    "value": "{{tunehub_api_key}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{tunehub_base_url}}/v1/methods/qq/search",
+                  "host": [
+                    "{{tunehub_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "methods",
+                    "qq",
+                    "search"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "步骤2：QQ搜索（上游真实执行）",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Referer",
+                    "value": "https://y.qq.com/"
+                  },
+                  {
+                    "key": "Origin",
+                    "value": "https://y.qq.com"
+                  },
+                  {
+                    "key": "User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comm\": {\n    \"cv\": 4747474,\n    \"ct\": 24,\n    \"format\": \"json\",\n    \"inCharset\": \"utf-8\",\n    \"outCharset\": \"utf-8\",\n    \"uin\": 0\n  },\n  \"req\": {\n    \"method\": \"DoSearchForQQMusicDesktop\",\n    \"module\": \"music.search.SearchCgiService\",\n    \"param\": {\n      \"query\": \"{{keyword}}\",\n      \"page_num\": \"{{page}}\",\n      \"num_per_page\": \"{{limit}}\"\n    }\n  }\n}"
+                },
+                "url": {
+                  "raw": "https://u.y.qq.com/cgi-bin/musicu.fcg",
+                  "protocol": "https",
+                  "host": [
+                    "u",
+                    "y",
+                    "qq",
+                    "com"
+                  ],
+                  "path": [
+                    "cgi-bin",
+                    "musicu.fcg"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "步骤1：获取网易搜索方法配置",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "X-API-Key",
+                    "value": "{{tunehub_api_key}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{tunehub_base_url}}/v1/methods/netease/search",
+                  "host": [
+                    "{{tunehub_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "methods",
+                    "netease",
+                    "search"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "步骤2：网易搜索（上游真实执行）",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Referer",
+                    "value": "https://music.163.com/"
+                  },
+                  {
+                    "key": "User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+                  }
+                ],
+                "url": {
+                  "raw": "https://music.163.com/api/search/get/web?s={{keyword}}&type=1&offset={{offset}}&limit={{limit}}",
+                  "protocol": "https",
+                  "host": [
+                    "music",
+                    "163",
+                    "com"
+                  ],
+                  "path": [
+                    "api",
+                    "search",
+                    "get",
+                    "web"
+                  ],
+                  "query": [
+                    {
+                      "key": "s",
+                      "value": "{{keyword}}"
+                    },
+                    {
+                      "key": "type",
+                      "value": "1"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "{{offset}}"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "{{limit}}"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "步骤1：获取酷我搜索方法配置",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "X-API-Key",
+                    "value": "{{tunehub_api_key}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{tunehub_base_url}}/v1/methods/kuwo/search",
+                  "host": [
+                    "{{tunehub_base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "methods",
+                    "kuwo",
+                    "search"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "步骤2：酷我搜索（上游真实执行）",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "User-Agent",
+                    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+                  }
+                ],
+                "url": {
+                  "raw": "http://search.kuwo.cn/r.s?client=kt&all={{keyword}}&pn={{kuwo_pn}}&rn={{limit}}&uid=794762570&ver=kwplayer_ar_9.2.2.1&vipver=1&show_copyright_off=1&newver=1&ft=music&cluster=0&strategy=2012&encoding=utf8&rformat=json&vermerge=1&mobi=1&issubtitle=1",
+                  "protocol": "http",
+                  "host": [
+                    "search",
+                    "kuwo",
+                    "cn"
+                  ],
+                  "path": [
+                    "r.s"
+                  ],
+                  "query": [
+                    {
+                      "key": "client",
+                      "value": "kt"
+                    },
+                    {
+                      "key": "all",
+                      "value": "{{keyword}}"
+                    },
+                    {
+                      "key": "pn",
+                      "value": "{{kuwo_pn}}"
+                    },
+                    {
+                      "key": "rn",
+                      "value": "{{limit}}"
+                    },
+                    {
+                      "key": "uid",
+                      "value": "794762570"
+                    },
+                    {
+                      "key": "ver",
+                      "value": "kwplayer_ar_9.2.2.1"
+                    },
+                    {
+                      "key": "vipver",
+                      "value": "1"
+                    },
+                    {
+                      "key": "show_copyright_off",
+                      "value": "1"
+                    },
+                    {
+                      "key": "newver",
+                      "value": "1"
+                    },
+                    {
+                      "key": "ft",
+                      "value": "music"
+                    },
+                    {
+                      "key": "cluster",
+                      "value": "0"
+                    },
+                    {
+                      "key": "strategy",
+                      "value": "2012"
+                    },
+                    {
+                      "key": "encoding",
+                      "value": "utf8"
+                    },
+                    {
+                      "key": "rformat",
+                      "value": "json"
+                    },
+                    {
+                      "key": "vermerge",
+                      "value": "1"
+                    },
+                    {
+                      "key": "mobi",
+                      "value": "1"
+                    },
+                    {
+                      "key": "issubtitle",
+                      "value": "1"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "方法平台列表（原始）",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{tunehub_api_key}}"
+              }
+            ],
+            "url": {
+              "raw": "{{tunehub_base_url}}/v1/methods/{{source}}",
+              "host": [
+                "{{tunehub_base_url}}"
+              ],
+              "path": [
+                "v1",
+                "methods",
+                "{{source}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "方法配置详情（原始）",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{tunehub_api_key}}"
+              }
+            ],
+            "url": {
+              "raw": "{{tunehub_base_url}}/v1/methods/{{source}}/{{function_name}}",
+              "host": [
+                "{{tunehub_base_url}}"
+              ],
+              "path": [
+                "v1",
+                "methods",
+                "{{source}}",
+                "{{function_name}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "解析歌曲（原始）",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{tunehub_api_key}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"platform\": \"{{source}}\",\n  \"ids\": \"{{song_ids}}\",\n  \"quality\": \"{{quality}}\"\n}"
+            },
+            "url": {
+              "raw": "{{tunehub_base_url}}/v1/parse",
+              "host": [
+                "{{tunehub_base_url}}"
+              ],
+              "path": [
+                "v1",
+                "parse"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "cloudflare_base_url",
+      "value": "https://musicfree.zshwdt25202.workers.dev"
+    },
+    {
+      "key": "tunehub_base_url",
+      "value": "https://tunehub.sayqz.com/api"
+    },
+    {
+      "key": "tunehub_api_key",
+      "value": "请替换成你的TuneHubAPIKey"
+    },
+    {
+      "key": "source",
+      "value": "netease"
+    },
+    {
+      "key": "function_name",
+      "value": "search"
+    },
+    {
+      "key": "keyword",
+      "value": "周杰伦"
+    },
+    {
+      "key": "page",
+      "value": "1"
+    },
+    {
+      "key": "limit",
+      "value": "5"
+    },
+    {
+      "key": "song_id",
+      "value": "1974443814"
+    },
+    {
+      "key": "song_ids",
+      "value": "1974443814,228908"
+    },
+    {
+      "key": "quality",
+      "value": "320k"
+    },
+    {
+      "key": "offset",
+      "value": "0"
+    },
+    {
+      "key": "kuwo_pn",
+      "value": "0"
+    },
+    {
+      "key": "playlist_id",
+      "value": "3778678"
+    },
+    {
+      "key": "toplist_id",
+      "value": "26"
+    }
+  ]
+}
