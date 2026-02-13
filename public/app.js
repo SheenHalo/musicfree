@@ -14,6 +14,7 @@ const QUALITY_OPTIONS = [
 ];
 
 const TOPLIST_PREVIEW_COUNT = 8;
+const SEARCH_PAGE_SIZE = 10;
 
 const App = {
   setup() {
@@ -21,7 +22,7 @@ const App = {
     const source = ref("kuwo");
     const keyword = ref("");
     const page = ref(1);
-    const limit = ref(10);
+    const hasSearchResult = ref(false);
 
     const loading = ref(false);
     const searching = ref(false);
@@ -47,6 +48,8 @@ const App = {
     });
 
     const canSearch = computed(() => keyword.value.trim().length > 0 && !searching.value);
+    const canPrevPage = computed(() => hasSearchResult.value && page.value > 1 && !searching.value);
+    const canNextPage = computed(() => hasSearchResult.value && songs.value.length === SEARCH_PAGE_SIZE && !searching.value);
     const visibleToplists = computed(() => {
       if (!showToplists.value) return [];
       if (showAllToplists.value) return toplists.value;
@@ -100,11 +103,18 @@ const App = {
       }
     }
 
-    async function searchSongs() {
+    async function searchSongs(targetPage = 1) {
       if (!keyword.value.trim()) {
         msg.error = "请输入歌曲关键词";
         return;
       }
+
+      const nextPage = Number(targetPage);
+      if (!Number.isFinite(nextPage) || nextPage < 1) {
+        return;
+      }
+
+      page.value = nextPage;
 
       searching.value = true;
       msg.text = "";
@@ -117,25 +127,44 @@ const App = {
           source: source.value,
           keyword: keyword.value.trim(),
           page: page.value,
-          limit: limit.value,
+          limit: SEARCH_PAGE_SIZE,
         });
         songs.value = Array.isArray(data) ? data : [];
+        hasSearchResult.value = songs.value.length > 0 || page.value > 1;
 
         if (songs.value.length === 0) {
-          msg.text = "没有搜索到结果，请换关键词再试";
+          msg.text = page.value > 1
+            ? `第 ${page.value} 页没有结果，可以返回上一页`
+            : "没有搜索到结果，请换关键词再试";
         } else {
           const differentSource = songs.value.some((item) => item.source && item.source !== source.value);
           if (differentSource) {
-            msg.text = `已找到 ${songs.value.length} 条结果（当前平台结果为空，自动切换到可用平台）`;
+            msg.text = `已找到 ${songs.value.length} 条结果（第 ${page.value} 页，当前平台结果为空，自动切换到可用平台）`;
           } else {
-            msg.text = `找到 ${songs.value.length} 条结果`;
+            msg.text = `找到 ${songs.value.length} 条结果（第 ${page.value} 页）`;
           }
+          scrollToSongs();
         }
       } catch (err) {
+        hasSearchResult.value = false;
         msg.error = err.message;
       } finally {
         searching.value = false;
       }
+    }
+
+    function searchFirstPage() {
+      searchSongs(1);
+    }
+
+    function prevPage() {
+      if (!canPrevPage.value) return;
+      searchSongs(page.value - 1);
+    }
+
+    function nextPage() {
+      if (!canNextPage.value) return;
+      searchSongs(page.value + 1);
     }
 
     async function fetchToplistSongs(item) {
@@ -145,6 +174,8 @@ const App = {
       msg.error = "";
       msg.text = "";
       playlistInfo.value = null;
+      hasSearchResult.value = false;
+      page.value = 1;
 
       try {
         const data = await request("/api/toplist", { source: source.value, id: item.id });
@@ -170,6 +201,8 @@ const App = {
       msg.text = "";
       msg.error = "";
       currentToplist.value = null;
+      hasSearchResult.value = false;
+      page.value = 1;
 
       try {
         const data = await request("/api/playlist", { source: source.value, id });
@@ -294,6 +327,8 @@ const App = {
 
     function resetForSource() {
       songs.value = [];
+      page.value = 1;
+      hasSearchResult.value = false;
       currentToplist.value = null;
       playlistInfo.value = null;
       showToplists.value = false;
@@ -318,7 +353,7 @@ const App = {
       source,
       keyword,
       page,
-      limit,
+      hasSearchResult,
       loading,
       searching,
       msg,
@@ -332,9 +367,14 @@ const App = {
       playlistInfo,
       directParse,
       canSearch,
+      canPrevPage,
+      canNextPage,
       toggleTheme,
       fetchToplists,
       searchSongs,
+      searchFirstPage,
+      prevPage,
+      nextPage,
       fetchToplistSongs,
       fetchPlaylist,
       getParseItem,
@@ -369,13 +409,12 @@ const App = {
           <select class="select" v-model="source" @change="resetForSource">
             <option v-for="s in SOURCE_OPTIONS" :key="s.value" :value="s.value">{{ s.label }}</option>
           </select>
-          <input class="input" v-model="keyword" placeholder="输入歌曲名，例如：晴天" @keyup.enter="searchSongs" />
-          <input class="select" type="number" v-model="page" min="1" placeholder="页码" style="width: 90px;" />
-          <input class="select" type="number" v-model="limit" min="1" max="50" placeholder="数量" style="width: 90px;" />
-          <button class="btn" :disabled="!canSearch" @click="searchSongs">
+          <input class="input" v-model="keyword" placeholder="输入歌曲名，例如：晴天" @keyup.enter="searchFirstPage" />
+          <button class="btn" :disabled="!canSearch" @click="searchFirstPage">
             {{ searching ? '搜索中...' : '搜索' }}
           </button>
         </div>
+        <p class="hint">每页默认 10 条，搜索后可在结果底部翻页。</p>
       </div>
 
       <div class="card">
@@ -446,6 +485,11 @@ const App = {
 
             <p class="msg error" v-if="getParseItem(song).error">{{ getParseItem(song).error }}</p>
           </div>
+        </div>
+        <div class="pager" v-if="hasSearchResult">
+          <button class="btn secondary pager-btn" @click="prevPage" :disabled="!canPrevPage">上一页</button>
+          <span class="pager-text">第 {{ page }} 页</span>
+          <button class="btn secondary pager-btn" @click="nextPage" :disabled="!canNextPage">下一页</button>
         </div>
       </div>
 

@@ -143,6 +143,11 @@ a {
   background: var(--primary-hover);
 }
 
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .btn.secondary {
   background: transparent;
   color: var(--text);
@@ -246,6 +251,24 @@ audio {
   margin-top: 8px;
 }
 
+.pager {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pager-text {
+  font-size: 13px;
+  color: var(--sub);
+}
+
+.pager-btn {
+  min-width: 96px;
+}
+
 @media (max-width: 640px) {
   .title {
     font-size: 20px;
@@ -258,6 +281,11 @@ audio {
 
   .btn {
     width: 100%;
+  }
+
+  .pager-btn {
+    width: auto;
+    min-width: 88px;
   }
 
   .toplist-grid {
