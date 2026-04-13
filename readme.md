@@ -1,4 +1,6 @@
 # MusicFree
+## 更新
+2026年4月13日 —— 接口已经失效，已经删除了
 
 一个基于 Cloudflare Workers 的在线音乐工具：
 
@@ -224,4 +226,25 @@ POST Body 示例：
 ```bash
 npm run dev      # 本地调试
 npm run deploy   # 部署到 Cloudflare
+npx wrangler delete --name musicfree  # 删除已部署的 Worker
 ```
+
+---
+
+## 12. 删除已部署的 Worker
+
+如果你想停止服务或删除已部署的 Worker：
+
+### 方式 1：命令行删除
+
+```bash
+npx wrangler delete --name musicfree
+```
+
+执行后会弹出浏览器授权，确认后删除。
+
+### 方式 2：Dashboard 删除
+1. 访问 https://dash.cloudflare.com
+2. 进入 **Workers & Pages**
+3. 找到 `musicfree`
+4. 点击进入 → 右上角 **Delete**
